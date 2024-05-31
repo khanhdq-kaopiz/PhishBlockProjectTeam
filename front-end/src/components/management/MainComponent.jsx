@@ -1,19 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/css/style.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/aos/aos.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/bootstrap-icons/bootstrap-icons.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/boxicons/css/boxicons.min.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/glightbox/css/glightbox.min.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/remixicon/remixicon.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/swiper/swiper-bundle.min.css'
-import icon from '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/img/icon.png'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/bootstrap/css/bootstrap.min.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/js/main.js'
-import son from '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/img/son.jpg'
-import loc from '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/img/l61003.jpg'
+import '/home/ubuntu/projects/front-end/src/assets/css/style.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/aos/aos.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/bootstrap-icons/bootstrap-icons.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/boxicons/css/boxicons.min.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/glightbox/css/glightbox.min.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/remixicon/remixicon.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/swiper/swiper-bundle.min.css'
+import icon from '/home/ubuntu/projects/front-end/src/assets/img/icon.png'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/bootstrap/css/bootstrap.min.css'
+import '/home/ubuntu/projects/front-end/src/assets/js/main.js'
+import son from '/home/ubuntu/projects/front-end/src/assets/img/son.jpg'
+import loc from '/home/ubuntu/projects/front-end/src/assets/img/l61003.jpg'
 
 function MainComponent(){
+
+  useEffect(() => {
+    document.title = 'PhishBlock'; 
+  }, []);
 
   const navigate = useNavigate()
 
@@ -23,46 +27,55 @@ function MainComponent(){
   const [pubKey, setPubKey] = useState(null);
 
   useEffect(() => {
-    if ("solana" in window) {
-      const solWindow = window;
-      if (solWindow.solana && solWindow.solana.isPhantom) {
-        setProvider(solWindow.solana);
+    if ("suiet" in window) {
+      const suiWindow = window;
+      if (suiWindow.suiet && suiWindow.suiet.isSuietWallet) {
+        setProvider(suiWindow.sui);
         setWalletAvail(true);
         // Attempt an eager connection
-        solWindow.solana.connect({ onlyIfTrusted: true });
+        suiWindow.sui.connect();
       }
     }
   }, []);
 
   useEffect(() => {
     if (provider) {
-      provider.on("connect", (publicKey) => {
-        console.log(`connect event: ${publicKey}`);
+      // Add Sui wallet listeners (adapt based on library)
+      provider.on("connected", (address) => {
+        console.log(`Sui wallet connected: ${address}`);
         setConnected(true);
-        setPubKey(publicKey);
+        setPubKey(address); // Assuming address is the public key
       });
-      provider.on("disconnect", () => {
-        console.log("disconnect event");
+      provider.on("disconnected", () => {
+        console.log("Sui wallet disconnected");
         setConnected(false);
         setPubKey(null);
       });
     }
   }, [provider]);
-
-  const connectHandler = (event) => {
-    console.log(`connect handler`);
-    provider?.connect()
-      .catch((err) => {
-        console.error("connect ERROR:", err);
-      });
+  
+  const connectHandler = async (event) => {
+    console.log("Sui wallet connect requested");
+    try {
+      const connected = await provider.connect(); // Replace with appropriate connect method
+      if (connected) {
+        console.log("Connected to Sui wallet successfully!");
+      } else {
+        console.log("Connection to Sui wallet failed.");
+      }
+    } catch (error) {
+      console.error("Error connecting to Sui wallet:", error);
+    }
   };
-
-  const disconnectHandler = (event) => {
-    console.log("disconnect handler");
-    provider?.disconnect()
-      .catch((err) => {
-        console.error("disconnect ERROR:", err);
-      });
+  
+  const disconnectHandler = async (event) => {
+    console.log("Sui wallet disconnect requested");
+    try {
+      await provider.disconnect(); // Replace with appropriate disconnect method
+      console.log("Disconnected from Sui wallet.");
+    } catch (error) {
+      console.error("Error disconnecting from Sui wallet:", error);
+    }
   };
 
     function Register(){
@@ -79,6 +92,7 @@ function MainComponent(){
 
     return (
       <body>
+        <link rel="icon" type="image/x-icon" href="assets/img/icon.png" />
 
   <header id="header" class="fixed-top header-scrolled">
     <div class="container d-flex align-items-center justify-content-lg-between">
@@ -103,18 +117,18 @@ function MainComponent(){
   <>
     {connected ? (
       <a class="get-started-btn scrollto" style={{textDecoration: 'none'}} onClick={disconnectHandler}>
-        Disconnect from Phantom
+        Disconnect from Suiet Wallet
       </a>
     ) : (
       <a class="get-started-btn scrollto" style={{textDecoration: 'none'}} onClick={connectHandler}>
-        Connect to Phantom
+        Connect to Suiet Wallet
       </a>
     )}
   </>
 ) : (
   <>
-    <a href="https://phantom.app/" style={{textDecoration: 'none'}} class="get-started-btn scrollto">
-        Download Phantom Wallet
+    <a href="https://suiet.app/" style={{textDecoration: 'none'}} class="get-started-btn scrollto">
+        Download Suiet Wallet
       </a>
   </>
 )}
@@ -144,14 +158,14 @@ function MainComponent(){
       </h3>
     ) : (
       <h3>
-        Please connect to your Phantom wallet to use our service.
+        Please connect to your Suiet wallet to use our service.
       </h3>
     )}
   </>
 ) : (
   <>
-    <h3><a href="https://phantom.app/">
-        Oops! Phantom Wallet is not available. Go get it now
+    <h3><a href="https://suiet.app/">
+        Oops! Suiet Wallet is not available. Go get it now
       </a></h3>
   </>
 )}
@@ -220,88 +234,18 @@ function MainComponent(){
     ) : (
       <>
          <a style={{textDecoration: 'none'}} class="cta-btn">
-            Connect to Phantom
+            Connect to Suiet Wallet
           </a>
       </>
     )}
   </>
 ) : 
-<a style={{textDecoration: 'none'}} class="cta-btn" onClick={moveToPhantom}>Download Phantom Wallet.</a>
+<a style={{textDecoration: 'none'}} class="cta-btn" onClick={moveToPhantom}>Download Suiet Wallet.</a>
 }
         </div>
 
       </div>
     </section>
-
-    <section id="team" class="team">
-      <div class="container" >
-
-        <div class="section-title">
-          <h2>Team</h2>
-          <p>Check our Team</p>
-        </div>
-
-        <div class="row">
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-            <div class="member" >
-              <div class="member-img">
-                <img  class="img-fluid" alt="" />
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Nguyễn Hữu Lộc</h4>
-                <span>Developer</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-            <div class="member" >
-              <div class="member-img">
-                <img  class="img-fluid" alt="" />
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Trần Cao Sơn</h4>
-                <span>Developer</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-            <div class="member" >
-              <div class="member-img">
-                <img  class="img-fluid" alt="" />
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Nguyễn Tiến Mạnh</h4>
-                <span>Reasearcher</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
     
   </main>
 

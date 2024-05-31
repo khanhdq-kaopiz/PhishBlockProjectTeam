@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/css/style.css'
-import icon from '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/img/icon.png'
+import '/home/ubuntu/projects/front-end/src/assets/css/style.css'
+import icon from '/home/ubuntu/projects/front-end/src/assets/img/icon.png'
 
 export default function HeaderComponent1(){
 
@@ -10,48 +10,56 @@ export default function HeaderComponent1(){
   const [pubKey, setPubKey] = useState(null);
 
   useEffect(() => {
-    if ("solana" in window) {
-      const solWindow = window;
-      if (solWindow.solana && solWindow.solana.isPhantom) {
-        setProvider(solWindow.solana);
+    if ("sui" in window) {
+      const suiWindow = window;
+      if (suiWindow.sui && suiWindow.sui.isSuiWallet) {
+        setProvider(suiWindow.sui);
         setWalletAvail(true);
         // Attempt an eager connection
-        solWindow.solana.connect({ onlyIfTrusted: true });
+        suiWindow.sui.connect();
       }
     }
   }, []);
 
   useEffect(() => {
     if (provider) {
-      provider.on("connect", (publicKey) => {
-        console.log(`connect event: ${publicKey}`);
+      // Add Sui wallet listeners (adapt based on library)
+      provider.on("connected", (address) => {
+        console.log(`Sui wallet connected: ${address}`);
         setConnected(true);
-        setPubKey(publicKey);
+        setPubKey(address); // Assuming address is the public key
       });
-      provider.on("disconnect", () => {
-        console.log("disconnect event");
+      provider.on("disconnected", () => {
+        console.log("Sui wallet disconnected");
         setConnected(false);
         setPubKey(null);
       });
     }
   }, [provider]);
-
-  const connectHandler = (event) => {
-    console.log(`connect handler`);
-    provider?.connect()
-      .catch((err) => {
-        console.error("connect ERROR:", err);
-      });
+  
+  const connectHandler = async (event) => {
+    console.log("Sui wallet connect requested");
+    try {
+      const connected = await provider.connect(); // Replace with appropriate connect method
+      if (connected) {
+        console.log("Connected to Sui wallet successfully!");
+      } else {
+        console.log("Connection to Sui wallet failed.");
+      }
+    } catch (error) {
+      console.error("Error connecting to Sui wallet:", error);
+    }
   };
-
-  const disconnectHandler = (event) => {
-    console.log("disconnect handler");
-    provider?.disconnect()
-      .catch((err) => {
-        console.error("disconnect ERROR:", err);
-      });
+  
+  const disconnectHandler = async (event) => {
+    console.log("Sui wallet disconnect requested");
+    try {
+      await provider.disconnect(); // Replace with appropriate disconnect method
+      console.log("Disconnected from Sui wallet.");
+    } catch (error) {
+      console.error("Error disconnecting from Sui wallet:", error);
+    }
   };
-
 
     return (
         <header role="banner" aria-label="site-wide-navigation" class="site-header">
@@ -83,18 +91,18 @@ export default function HeaderComponent1(){
   <>
     {connected ? (
       <button className="button-30" role="button" onClick={disconnectHandler}>
-        Disconnect from Phantom
+        Disconnect from Suiet Wallet
       </button>
     ) : (
       <button className="button-30" role="button" onClick={connectHandler}>
-        Connect to Phantom
+        Connect to Suiet Wallet
       </button>
     )}
   </>
 ) : (
   <>
     <p>
-      <a href="https://phantom.app/">Connect to Phantom wallet</a>.
+      <a href="https://suiet.app/">Download Suiet wallet</a>.
     </p>
   </>
 )}

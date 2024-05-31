@@ -1,4 +1,4 @@
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/css/styles.css'
+import '/home/ubuntu/projects/front-end/src/assets/css/style.css'
 
 function FooterComponent(){
     return (

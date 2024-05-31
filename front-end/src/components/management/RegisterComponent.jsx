@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/css/style.css'
+import '/home/ubuntu/projects/front-end/src/assets/css/style.css'
 import { VersionedMessage, clusterApiUrl, Keypair, Transaction, Connection } from '@solana/web3.js';
 import {Formik, Form, Field} from 'formik'
 import { registerApi } from "./api/RegisterApiService";
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
-import {confirmTransactionFromFrontend } from '/Users/mac/Documents/LibraryWebApp/management-app/src/components/shyft.js';
-import icon from '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/img/icon.png'
+import {confirmTransactionFromFrontend } from '/home/ubuntu/projects/front-end/src/components/shyft.js';
+import icon from '/home/ubuntu/projects/front-end/src/assets/img/icon.png'
 
 function RegisterComponent(){
+
+  useEffect(() => {
+    document.title = 'PhishBlock - Registration'; 
+  }, []);
 
   const [enterpriseName, setEnterpriseName] = useState('')
   const [enterpriseMail, setEnterpriseMail] = useState('')

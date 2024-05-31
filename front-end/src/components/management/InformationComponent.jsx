@@ -1,18 +1,22 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/css/style.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/aos/aos.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/bootstrap-icons/bootstrap-icons.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/boxicons/css/boxicons.min.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/glightbox/css/glightbox.min.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/remixicon/remixicon.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/swiper/swiper-bundle.min.css'
-import icon from '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/img/icon.png'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/vendor/bootstrap/css/bootstrap.min.css'
-import '/Users/mac/Documents/LibraryWebApp/management-app/src/assets/js/main.js'
+import '/home/ubuntu/projects/front-end/src/assets/css/style.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/aos/aos.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/bootstrap-icons/bootstrap-icons.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/boxicons/css/boxicons.min.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/glightbox/css/glightbox.min.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/remixicon/remixicon.css'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/swiper/swiper-bundle.min.css'
+import icon from '/home/ubuntu/projects/front-end/src/assets/img/icon.png'
+import '/home/ubuntu/projects/front-end/src/assets/vendor/bootstrap/css/bootstrap.min.css'
+import '/home/ubuntu/projects/front-end/src/assets/js/main.js'
 import { retrieveFromMint } from "./api/RegisterApiService";
 
 function InformationComponent(){
+
+  useEffect(() => {
+    document.title = 'PhishBlock - Information'; // Set the desired page title here
+  }, []);
 
   const {websiteMint} = useParams()
   const [websiteName, setWebsiteName] = useState('')
@@ -39,7 +43,7 @@ function retrieveData(){
   }
 
   function backToRegister(){
-    window.location.href = `http://localhost:3000/`;
+    window.location.href = ``;
   }
 
   return (
